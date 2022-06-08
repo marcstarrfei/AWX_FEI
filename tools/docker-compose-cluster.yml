@@ -29,8 +29,8 @@ services:
     working_dir: "/awx_devel"
     volumes:
       - "../:/awx_devel"
-      - "./redis/redis_socket_ha_1:/var/run/redis/"
-      - "./docker-compose/supervisor.conf:/etc/supervisord.conf"
+      - "./redis/redis_socket_ha_1:/var/run/redis/:rw,z"
+      - "./docker-compose/supervisor.conf:/etc/supervisord.conf:rw,z"
     ports:
       - "5899-5999:5899-5999"
   awx-2:
@@ -48,8 +48,8 @@ services:
       AWX_GROUP_QUEUES: bravo,tower
     volumes:
       - "../:/awx_devel"
-      - "./redis/redis_socket_ha_2:/var/run/redis/"
-      - "./docker-compose/supervisor.conf:/etc/supervisord.conf"
+      - "./redis/redis_socket_ha_2:/var/run/redis/:rw,z"
+      - "./docker-compose/supervisor.conf:/etc/supervisord.conf:rw,z"
     ports:
       - "7899-7999:7899-7999"
   awx-3:
@@ -67,8 +67,8 @@ services:
       AWX_GROUP_QUEUES: charlie,tower
     volumes:
       - "../:/awx_devel"
-      - "./redis/redis_socket_ha_3:/var/run/redis/"
-      - "./docker-compose/supervisor.conf:/etc/supervisord.conf"
+      - "./redis/redis_socket_ha_3:/var/run/redis/:rw,z"
+      - "./docker-compose/supervisor.conf:/etc/supervisord.conf:rw,z"
     ports:
       - "8899-8999:8899-8999"
   redis_1:
@@ -77,7 +77,7 @@ services:
     container_name: tools_redis_1_1
     command: ["/usr/local/etc/redis/redis.conf"]
     volumes:
-      - "./redis/redis.conf:/usr/local/etc/redis/redis.conf:ro,z"
+      - "./redis/redis.conf:/usr/local/etc/redis/redis.conf:rw,z"
       - "./redis/redis_socket_ha_1:/var/run/redis/:rw,z"
   redis_2:
     user: ${CURRENT_UID}
@@ -85,7 +85,7 @@ services:
     container_name: tools_redis_2_1
     command: ["/usr/local/etc/redis/redis.conf"]
     volumes:
-      - "./redis/redis.conf:/usr/local/etc/redis/redis.conf:ro,z"
+      - "./redis/redis.conf:/usr/local/etc/redis/redis.conf:rw,z"
       - "./redis/redis_socket_ha_2:/var/run/redis/:rw,z"
   redis_3:
     user: ${CURRENT_UID}
@@ -93,7 +93,7 @@ services:
     container_name: tools_redis_3_1
     command: ["/usr/local/etc/redis/redis.conf"]
     volumes:
-      - "./redis/redis.conf:/usr/local/etc/redis/redis.conf:ro,z"
+      - "./redis/redis.conf:/usr/local/etc/redis/redis.conf:rw,z"
       - "./redis/redis_socket_ha_3:/var/run/redis/:rw,z"
   postgres:
     image: postgres:12
